@@ -16,17 +16,13 @@ class AdminController extends Controller
     //
     public function dagupanComplaint(QueryRequest $request){
         // dd($request);
-        $complaints = Complaints::orderBy('created_at')
+        $complaints = Complaints::orderBy('created_at')->orderByRaw('created_at DESC')
         ->where('status','Solved')
         ->limit(4)
         ->paginate(4);
-        // $filter = Complaints::filter($request::only('id'))
-        // // ->appends($request::only('id'))
-        // ;
-        // dd($filter);
+
         return Inertia::render('Admin/AdminView',[
             'Complaints'=>$complaints,
-            // 'filter'=>$filter
         ]);
     }
     public function barangay(QueryRequest $request){
@@ -186,7 +182,7 @@ class AdminController extends Controller
         ]);
     }
     public function transferedComplaint(){
-        $complaints = Complaints::orderBy('created_at')
+        $complaints = Complaints::orderByRaw('created_at DESC')
         ->where('status','Transfered')
         ->limit(4)
         ->paginate(4);

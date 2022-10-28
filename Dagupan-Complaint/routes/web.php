@@ -50,4 +50,6 @@ Route::prefix('Barangay')->middleware(['auth:sanctum','Barangay'])->group(functi
     Route::get('/PendingComplaint',[BarangayController::class,'pendingComplaint'])->name('pendingComplaint');
     Route::get('/SolvedComplaint',[BarangayController::class,'solvedComplaint'])->name('solvedComplaint');
     Route::get('/TransferedComplaint',[BarangayController::class,'transferedComplaint'])->name('transferedComplaint');
+
+    Route::post('/TransferToMunicipal',[BarangayController::class,'transferedComplaintRequest'])->name('transferedComplaintRequest');
 });

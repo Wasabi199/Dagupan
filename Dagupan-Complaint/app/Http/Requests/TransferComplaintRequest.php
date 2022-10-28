@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-class UserComplaintRequest extends FormRequest
+use Illuminate\Support\Facades\Auth;
+class TransferComplaintRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,8 @@ class UserComplaintRequest extends FormRequest
     {
         return [
             //
-            'name'=>'required',
-            'age'=>'required',
-            'address'=>'required',
-            'complainant_address'=>'required',
-            'email'=>'required',
-            'value'=>'required',
-            'issue'=>'required',
+            'id'=>'required|exists:complaints,id',
             'status'=>'required',
-            'images.*'=>'file|mimes:jpg,png,jpeg,pdf'
         ];
     }
 }

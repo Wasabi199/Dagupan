@@ -3,7 +3,10 @@
 <div v-if="Complaints.total !=0" class="flex mr-10  m-auto ml-10 h-full w-100 justify-center">
     <div v-if="this.Complaint != Object" class=" border-4 border-[#005176] mt-10 w-full  h-full rounded-lg">
         <div >
-            <p class="m-2.5 ml-5 mt-5 text-[#005176] font-[arial]">{{this.Complaint.name}}</p>
+            <div class="flex justify-between">
+                <p class="m-2.5 mx-5 mt-5 text-[#005176] font-[arial]">{{this.Complaint.name}}</p>
+                <button @click="transfer(Complaint)" class="m-5 bg-[#005176] p-2 rounded-lg text-white">Transfer</button>
+            </div>
             <p class="m-2.5 ml-5 text-[#005176] font-[arial]">{{this.Complaint.location}}</p>
             <p class="m-2.5 ml-5 font-bold text-[#005176] font-[arial] mt-5">Complaints:</p>
             <p  class="p-5  border-2 border-[#005176] w-11/12 h-100 ml-5 mr-5 mb-5 rounded-lg" >{{this.Complaint.value}}</p>
@@ -54,6 +57,7 @@
 <script>
     import AppLayout from '@/Layouts/AppLayout.vue';
     import Pagination from '../../Components/Pagination.vue';
+import route from '../../../../vendor/tightenco/ziggy/src/js';
 export default {
     setup() {
         
@@ -67,12 +71,22 @@ export default {
     },
     data(){
         return{
-            Complaint:Object
+            Complaint:Object,
+            formTranferComplaint:this.$inertia.form({
+                id:Number,
+                status:''
+            })
         }
     },
     methods:{
         click(complaint){
             this.Complaint = complaint
+        },
+        transfer(Complaint){
+            this.formTranferComplaint.id = Complaint.id,
+            this.formTranferComplaint.status = 'Transfered',
+            this.formTranferComplaint.post(route('transferedComplaintRequest')),
+            console.log("Clicked");
         }
     },
     

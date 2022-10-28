@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('post',[UserMobileController::class,'userComplaintPost'])->name('api.userComplaintPost');
-
+Route::post('rate',[UserMobileController::class,'userRateController'])->name('api.userRatePost');
