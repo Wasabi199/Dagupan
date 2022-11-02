@@ -89,7 +89,7 @@
                         </div>
                         <div class="">
                             <Jet-label for="address" value="Address"></Jet-label>
-                            <input type="text" class="w-full rounded-lg" placeholder="Email " v-model="formComplaint.complainant_address"/>
+                            <input type="text" class="w-full rounded-lg" placeholder="Address " v-model="formComplaint.complainant_address"/>
                         </div>
                         <div class="">
                             <Jet-label for="age" value="Age"></Jet-label>
@@ -216,6 +216,7 @@ export default {
             // this.formComplaint.address ==''?'':this.form.address
             this.formComplaint.post(route('submitComplaint'))
             console.log('clicked')
+            this.showComplaintModal = false
         },
         rating(picked){
             console.log(picked);
@@ -225,6 +226,7 @@ export default {
         ratingSubmit(){
             console.log('Rated')
             this.formRate.post(route('submitRate'))
+            this.showRateModal = false
         }
     }
 }

@@ -34,14 +34,14 @@ class UserMobileController extends Controller
                     $path = $file->storePublicly('ComplaintImages',  ['disk' => 'public']);
                     ComplaintImages::create([
                         'complaints_id' => $complaint->id,
-                        'images' => '../../../../storage/' . $path
+                        'images'=>'../../../../storage/'.$path
                     ]);
                 }
             } else {
                 $path = $request->images->storePublicly('ComplaintImages',  ['disk' => 'public']);
                 ComplaintImages::create([
                     'complaints_id' => $complaint->id,
-                    'images' => '../../../../storage/' . $path
+                    'images'=>'../../../../storage/'.$path
                 ]);
             }
         }

@@ -10,15 +10,19 @@ use App\Services\Barangays;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Request as QueryRequest;
-
+use App\Http\Requests\SolvedComplaintRequest as solvedRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Notify;
 class AdminController extends Controller
 {
     //
     public function dagupanComplaint(QueryRequest $request){
         // dd($request);
-        $complaints = Complaints::orderBy('created_at')->orderByRaw('created_at DESC')
+        $complaints = Complaints::with('image')->orderByRaw('created_at DESC')
         ->where('status','Solved')
         ->limit(4)
+        
         ->paginate(4);
 
         return Inertia::render('Admin/AdminView',[
@@ -182,7 +186,7 @@ class AdminController extends Controller
         ]);
     }
     public function transferedComplaint(){
-        $complaints = Complaints::orderByRaw('created_at DESC')
+        $complaints = Complaints::with('image')->orderByRaw('created_at DESC')
         ->where('status','Transfered')
         ->limit(4)
         ->paginate(4);
@@ -190,5 +194,25 @@ class AdminController extends Controller
         return Inertia::render('Admin/AdminTransfered',[
             'TransferedComplaints'=>$complaints
         ]);
+    }
+    public function solvedComplaintRequest(solvedRequest $request){
+        $validated_data = $request->validated();
+        // dd($validated_data);
+        $complaint = Complaints::findOrFail($validated_data['id']);
+        // $complaint->update($validated_data);
+
+        $data=[
+            'subject'=>'Complaint Solved',
+            'body'=>'Your Complaint has been Solved'
+        ];
+
+        try{
+            Mail::to($complaint->email)->send(new Notify($data));
+            $complaint->update($validated_data);
+            // return response()->json(['Please Check Your Inbox!']);
+        }catch(\Exception $e){
+            // return response()->json(['Something Went Wrong!']);
+        }
+        return Redirect::back();
     }
 }

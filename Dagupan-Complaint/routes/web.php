@@ -43,6 +43,7 @@ Route::prefix('Admin')->middleware(['auth:sanctum','Admin'])->group(function(){
     Route::get('Admin/DagupanComplaint',[AdminController::class,'dagupanComplaint'])->name('Complaints');
     Route::get('Admin/Barangay',[AdminController::class,'barangay'])->name('Barangay');
     Route::get('Admin/Transfered',[AdminController::class,'transferedComplaint'])->name('transfered');
+    Route::post('/SolvedComplaint',[AdminController::class,'solvedComplaintRequest'])->name('SolvedComplaintAdminRequest');
 });
 
 Route::prefix('Barangay')->middleware(['auth:sanctum','Barangay'])->group(function(){
@@ -50,6 +51,8 @@ Route::prefix('Barangay')->middleware(['auth:sanctum','Barangay'])->group(functi
     Route::get('/PendingComplaint',[BarangayController::class,'pendingComplaint'])->name('pendingComplaint');
     Route::get('/SolvedComplaint',[BarangayController::class,'solvedComplaint'])->name('solvedComplaint');
     Route::get('/TransferedComplaint',[BarangayController::class,'transferedComplaint'])->name('transferedComplaint');
-
     Route::post('/TransferToMunicipal',[BarangayController::class,'transferedComplaintRequest'])->name('transferedComplaintRequest');
+    Route::post('/SolvedComplaint',[BarangayController::class,'solvedComplaintRequest'])->name('SolvedComplaintRequest');
+
+    // Route::get('/send',BarangayController::class,'sendNotification')->name('sendNotification');
 });

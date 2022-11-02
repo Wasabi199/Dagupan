@@ -5,7 +5,12 @@
         <div >
             <div class="flex justify-between">
                 <p class="m-2.5 mx-5 mt-5 text-[#005176] font-[arial]">{{this.Complaint.name}}</p>
-                <button @click="transfer(Complaint)" class="m-5 bg-[#005176] p-2 rounded-lg text-white">Transfer</button>
+                <div>
+                    <button @click="solved(Complaint)" class="m-5 bg-green-500 p-2 rounded-lg text-white">Solved</button>
+                    <button @click="transfer(Complaint)" class="m-5 bg-[#005176] p-2 rounded-lg text-white">Transfer</button>
+
+                </div>
+                
             </div>
             <p class="m-2.5 ml-5 text-[#005176] font-[arial]">{{this.Complaint.location}}</p>
             <p class="m-2.5 ml-5 font-bold text-[#005176] font-[arial] mt-5">Complaints:</p>
@@ -75,6 +80,10 @@ export default {
             formTranferComplaint:this.$inertia.form({
                 id:Number,
                 status:''
+            }),
+            formSolvedComplaint:this.$inertia.form({
+                id:Number,
+                status:''
             })
         }
     },
@@ -87,6 +96,11 @@ export default {
             this.formTranferComplaint.status = 'Transfered',
             this.formTranferComplaint.post(route('transferedComplaintRequest')),
             console.log("Clicked");
+        },
+        solved(Complaint){
+            this.formSolvedComplaint.id = Complaint.id
+            this.formSolvedComplaint.status = 'Solved'
+            this.formSolvedComplaint.post(route('SolvedComplaintRequest'))
         }
     },
     

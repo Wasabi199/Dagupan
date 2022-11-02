@@ -64,20 +64,8 @@ class UserController extends Controller
                 }
             }
         }
-        // dd($request->files);
-        // if(isset($request->images)){
-            
-        //     if(is_array($request->images)){
-        //         // foreach($request->file() as $file){
-        //             foreach($request->images as $image){
-        //                 $path = $image->storePublicly('ComplaintImages',  ['disk'=>'public']);
-        //                 $complaint->image()->create([
-        //                     'images'=>'../../../../storage/'.$path
-        //                 ]);
-        //             }
-        //         // }
-        //     }
-        // }
+        Redirect::back();
+   
     }
     
     public function submitRequest(rateRequest $request){
@@ -85,6 +73,6 @@ class UserController extends Controller
         Rates::create([
             'rates'=>$validated_data['rate'],
         ]);
-        Redirect::back();
+        Redirect::route('complaint');
     }
 }
