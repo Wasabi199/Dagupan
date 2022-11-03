@@ -20,8 +20,8 @@ class RatesFactory extends Factory
             'Very Satisfied',
             'Satisfied',
             'OK',
-            'Disatisfied',
-            'Very Disatisfied',
+            'Dissatisfied',
+            'Very Dissatisfied',
         ];
         return [
             //

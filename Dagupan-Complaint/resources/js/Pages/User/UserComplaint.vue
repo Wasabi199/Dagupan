@@ -43,7 +43,9 @@
                 <svg @click="showRateModal = !showRateModal" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
+                
             </div>
+             <Doughnut height="20%"  :chart-data="chartData"/>
                 <div  class="mt-4 shadow-xl p-2 w-2/4 rounded-lg hover:bg-blue-300 cursor-pointer" :class="formRate.rate =='Verry Satisfied' ?'bg-blue-300':null" @click="rating('Verry Satisfied')">
                    <div class="font-bold" >Verry Satisfied</div>
                 </div>
@@ -137,7 +139,8 @@ import Modal from '@/Components/Modal.vue'
 import route from '../../../../vendor/tightenco/ziggy/src/js';
 import {pickBy, throttle} from 'lodash';
 import Pagination from '../../Components/Pagination.vue';
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from '@inertiajs/inertia-vue3';
+import  Doughnut  from '@/Components/Doughnut.ts'
 export default {
     setup() {
         
@@ -146,22 +149,22 @@ export default {
         filters:Object,
         Complaints:Object,
         Barangays:Array,
+        rates:Array,
         
     },
     components:{
         JetLabel,
         Modal,
         Pagination,
-        Link
-        // pickBy,
-        // throttle,
+        Link,
+        Doughnut
     },
    data(){
     return{
 
         // showComplaint: false,
         showComplaintModal:false,
-        showRateModal:false,
+        showRateModal:true,
 
         form:{
             address: this.$props.filters.address == null ? '': this.$props.filters.address
@@ -186,11 +189,25 @@ export default {
             'Noisy Neigbors',
             'Animal Issue',
             'Waste Problem',
-        ]
-     
-    }
-   },
+        ],
 
+    }
+   
+   },
+   computed:{
+        chartData(){
+            return{
+                labels: [ 'Very Satisfied', 'Satisfied', 'Ok', 'Dissatisfied', 'Very Dissatisfied' ],
+                datasets: [ { 
+                    label:['Rates'],
+                    data: this.rates,
+                    backgroundColor: ['#28B463','#58D68D','#ABB2B9','#EC7063','#E74C3C'],
+                    
+                } ],
+                
+            }
+        },
+    },
     watch: {
         form: {
             deep: true,

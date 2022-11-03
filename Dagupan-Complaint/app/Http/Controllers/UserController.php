@@ -16,25 +16,40 @@ class UserController extends Controller
     //
     public function complaint(QueryRequest $query){
         $filters = $query::only(['address']);
-        // dd($filters);
+        $rates = [0,0,0,0,0];
         isset($filters['address']) && $filters['address'] != null? $filters['address'] = $filters['address']: $filters['address'] = null;
         $barangays = Barangays::barangay();
         $complaint = Complaints::
-        // where('address','=','Salisay')->get()
         filter($filters)
         ->limit(3)
         ->paginate(3)
-        ->appends($query::only(['address']))
-        // ->get()
-  
-        
-        ;
-        // dd($complaint);
-        // $filters = $query::only(['address']);
+        ->appends($query::only(['address']));
+        foreach(Rates::all() as $rate){
+            switch($rate->rates){
+                case 'Very Satisfied':
+                    $rates[0]++;
+                    break;
+                case 'Satisfied':
+                    $rates[1]++;
+                    break;
+                case 'OK':
+                    $rates[2]++;
+                    break;
+                case 'Dissatisfied':
+                    $rates[3]++;
+                    break;
+                case 'Very Dissatisfied':
+                    $rates[4]++;
+                    break;
+                
+            }
+        }
+        // dd($rates);
         return Inertia::render('User/UserComplaint',[
             'Barangays'=>$barangays,
             'Complaints'=>$complaint,
             'filters'=>$filters,
+            'rates'=>$rates
         ]);
     }
 
